@@ -239,3 +239,13 @@ Location: /cars/123
 | 403 Forbidden | Пользователь авторизован, но не имеет прав на выполнение действия |
 | 404 Not Found | Эндпоинт `/cars` не существует или был переименован |
 | 500 Internal Server Error | Сбой на сервере или ошибка базы данных при сохранении записи |
+
+
+### Литература
+
+ - http://github.com/MSU-Courses/advanced-web-development/blob/main/01_Web_Development_Introduction/readme.md
+
+ - https://en.wikipedia.org/wiki/HTTP
+
+ - https://en.wikipedia.org/wiki/HTTPS
+ 
