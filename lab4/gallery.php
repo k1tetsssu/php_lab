@@ -52,12 +52,10 @@ $images = array_filter(
 </head>
 <body>
 
-<!-- Хедер -->
 <header>
     <h1>Моя Галерея</h1>
 </header>
 
-<!-- Меню -->
 <nav>
     <a href="#">Главная</a> |
     <a href="#">Галерея</a> |
@@ -66,7 +64,6 @@ $images = array_filter(
 
 <hr>
 
-<!-- Контент -->
 <div>
     <h2>Изображения</h2>
 
@@ -91,7 +88,6 @@ $images = array_filter(
 
 <hr>
 
-<!-- Футер -->
 <footer>
     <p>&copy; <?php echo date("Y"); ?> Галерея</p>
 </footer>
