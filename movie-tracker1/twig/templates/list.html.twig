@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <div class="actions">
+        <a href="index.php">Добавить новую запись</a>
+    </div>
+
+    <p>
+        Сортировать по:
+        <a href="list.php?sort=title">названию</a>
+        <a href="list.php?sort=release_date">дате выхода</a>
+        <a href="list.php?sort=genre">жанру</a>
+        <a href="list.php?sort=rating">оценке</a>
+        <a href="list.php?sort=created_at">дате добавления</a>
+    </p>
+
+    {% if errorMessage is not empty %}
+        <div class="error-list">
+            <p>{{ errorMessage|e }}</p>
+        </div>
+    {% elseif movies is empty %}
+        <p>Записей пока нет.</p>
+    {% else %}
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Дата выхода</th>
+                <th>Тип</th>
+                <th>Жанр</th>
+                <th>Оценка</th>
+                <th>Описание</th>
+                <th>Дата просмотра</th>
+                <th>Статус</th>
+                <th>Дата добавления</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for movie in movies %}
+                <tr>
+                    <td>{{ movie.title|e }}</td>
+                    <td>{{ movie.release_date|e }}</td>
+                    <td>{{ movie.type|e }}</td>
+                    <td>{{ movie.genre|e }}</td>
+                    <td>{{ movie.rating|e }}</td>
+                    <td>{{ movie.description|e }}</td>
+                    <td>{{ movie.watched_at|e }}</td>
+                    <td>{{ movie.status|e }} {{ movie.status|status_icon }}</td>
+                    <td>{{ movie.created_at|e }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

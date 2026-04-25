@@ -1,0 +1,7 @@
+{
+  "name": "movie-tracker/movie-tracker",
+  "description": "Movie Tracker with native PHP templates and Twig integration.",
+  "require": {
+    "twig/twig": "^3.0"
+  }
+}
