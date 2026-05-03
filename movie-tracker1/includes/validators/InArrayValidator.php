@@ -9,11 +9,6 @@ class InArrayValidator implements ValidatorInterface
     private string $label;
     private array $allowedValues;
 
-    /**
-     * @param string $field Ключ поля.
-     * @param string $label Название поля.
-     * @param array $allowedValues Допустимые значения.
-     */
     public function __construct(string $field, string $label, array $allowedValues)
     {
         $this->field = $field;
@@ -21,17 +16,19 @@ class InArrayValidator implements ValidatorInterface
         $this->allowedValues = $allowedValues;
     }
     
-    /**
-     * Проверяет, входит ли значение поля в список допустимых.
-     *
-     * @param array $data Ассоциативный массив данных формы.
-     * @return string|null Сообщение об ошибке или null.
-     */
     public function validate(array $data): ?string
     {
         $value = trim((string)($data[$this->field] ?? ''));
 
-        if (!in_array($value, $this->allowedValues, true)) {
+        if ($value === '') {
+            return "Поле \"{$this->label}\" обязательно для заполнения.";
+        }
+
+        // Приводим допустимые значения к строкам, т.к. данные из формы всегда приходят строками.
+        // Это решает проблему строгого сравнения с числами (genre_id).
+        $allowedStrings = array_map(fn($v) => (string)$v, $this->allowedValues);
+        
+        if (!in_array($value, $allowedStrings, true)) {
             return "Поле \"{$this->label}\" содержит недопустимое значение.";
         }
 

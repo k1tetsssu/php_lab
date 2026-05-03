@@ -11,11 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+    http_response_code(403);
+    echo 'Ошибка: невалидный CSRF-токен';
+    exit;
+}
+
 $input = [
     'title' => trim($_POST['title'] ?? ''),
     'release_date' => trim($_POST['release_date'] ?? ''),
     'type' => trim($_POST['type'] ?? ''),
-    'genre' => trim($_POST['genre'] ?? ''),
+    'genre_id' => (int)($_POST['genre_id'] ?? 0),
     'rating' => trim($_POST['rating'] ?? ''),
     'description' => trim($_POST['description'] ?? ''),
     'watched_at' => trim($_POST['watched_at'] ?? ''),
@@ -36,19 +42,16 @@ $newMovie = [
     'title' => $input['title'],
     'release_date' => $input['release_date'],
     'type' => $input['type'],
-    'genre' => $input['genre'],
+    'genre_id' => $input['genre_id'],
     'rating' => (int)$input['rating'],
     'description' => $input['description'],
     'watched_at' => $input['watched_at'],
     'status' => $input['status'],
-    'created_at' => date('Y-m-d'),
 ];
 
 try {
-    $movies = loadData(DATA_FILE);
-    $movies[] = $newMovie;
-    saveData(DATA_FILE, $movies);
-
+    createMovie($newMovie);
+    regenerateCsrfToken();
     renderTwig('success.html.twig', [
         'title' => 'Успешно',
     ]);

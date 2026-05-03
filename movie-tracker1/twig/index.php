@@ -8,6 +8,7 @@ require_once __DIR__ . '/../includes/twig.php';
 renderTwig('form.html.twig', [
     'title' => 'Movie Tracker (Twig)',
     'types' => ALLOWED_TYPES,
-    'genres' => ALLOWED_GENRES,
     'statuses' => ALLOWED_STATUSES,
+    'genres' => getAllGenres(),
+    'isEdit' => false,
 ]);

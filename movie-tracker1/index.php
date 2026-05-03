@@ -5,5 +5,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
 render('form', [
-    'title' => 'Movie Tracker'
+    'title' => 'Movie Tracker',
+    'genres' => getAllGenres(),
+    'isEdit' => false,
 ]);

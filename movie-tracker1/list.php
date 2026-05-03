@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+// ✅ Подключаем конфиг и функции ПЕРЕД вызовом методов БД
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
@@ -8,37 +9,15 @@ $movies = [];
 $errorMessage = '';
 
 try {
-    $movies = loadData(DATA_FILE);
-} catch (RuntimeException $exception) {
-    $errorMessage = $exception->getMessage();
-}
-
-$sort = $_GET['sort'] ?? '';
-
-switch ($sort) {
-    case 'title':
-        usort($movies, fn($a, $b) => strcmp($a['title'], $b['title']));
-        break;
-
-    case 'release_date':
-        usort($movies, fn($a, $b) => strcmp($a['release_date'], $b['release_date']));
-        break;
-
-    case 'genre':
-        usort($movies, fn($a, $b) => strcmp($a['genre'], $b['genre']));
-        break;
-
-    case 'rating':
-        usort($movies, fn($a, $b) => $a['rating'] <=> $b['rating']);
-        break;
-
-    case 'created_at':
-        usort($movies, fn($a, $b) => strcmp($a['created_at'], $b['created_at']));
-        break;
+    $sort = $_GET['sort'] ?? 'created_at';
+    // Сортировка теперь выполняется внутри функции на уровне SQL
+    $movies = getAllMovies($sort);
+} catch (Throwable $e) {
+    $errorMessage = 'Ошибка загрузки данных: ' . $e->getMessage();
 }
 
 render('list', [
-    'title' => 'Список фильмов',
+    'title' => 'Список фильмов и сериалов',
     'movies' => $movies,
     'errorMessage' => $errorMessage
 ]);
